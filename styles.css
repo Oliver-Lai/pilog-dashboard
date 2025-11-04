@@ -127,19 +127,20 @@ body {
 
 .refresh-btn {
     padding: 0.625rem 1.25rem;
-    background: var(--primary-color);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .refresh-btn:hover {
-    background: #4338ca;
+    background: linear-gradient(135deg, #5568d3 0%, #63408b 100%);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* 統計卡片 */
