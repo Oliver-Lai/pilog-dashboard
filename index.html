@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊文案生成 - 後台數據分析</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 側邊欄 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>🌍 旅遊數據</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#overview" class="nav-item active">
+                    <span class="icon">📊</span>
+                    總覽
+                </a>
+                <a href="#attractions" class="nav-item">
+                    <span class="icon">🗺️</span>
+                    熱門景點
+                </a>
+                <a href="#categories" class="nav-item">
+                    <span class="icon">📈</span>
+                    類型趨勢
+                </a>
+                <a href="#users" class="nav-item">
+                    <span class="icon">👥</span>
+                    使用者分析
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 主要內容區 -->
+        <main class="main-content">
+            <!-- 頂部欄 -->
+            <header class="header">
+                <h1>數據分析儀表板</h1>
+                <div class="header-actions">
+                    <select id="timeRange" class="time-selector">
+                        <option value="7">最近 7 天</option>
+                        <option value="30" selected>最近 30 天</option>
+                        <option value="90">最近 90 天</option>
+                    </select>
+                    <button class="refresh-btn" onclick="refreshData()">🔄 重新整理</button>
+                </div>
+            </header>
+
+            <!-- 統計卡片 -->
+            <section class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-info">
+                        <h3>總使用者數</h3>
+                        <p class="stat-number" id="totalUsers">0</p>
+                        <span class="stat-change positive">+12.5%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-info">
+                        <h3>文案生成次數</h3>
+                        <p class="stat-number" id="totalGenerations">0</p>
+                        <span class="stat-change positive">+8.3%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <h3>熱門景點數</h3>
+                        <p class="stat-number" id="popularAttractions">0</p>
+                        <span class="stat-change neutral">+2.1%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-info">
+                        <h3>平均滿意度</h3>
+                        <p class="stat-number" id="avgRating">0</p>
+                        <span class="stat-change positive">+5.2%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 圖表區域 -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>熱門景點排行</h2>
+                        <span class="chart-subtitle">基於使用者生成文案次數</span>
+                    </div>
+                    <canvas id="attractionsChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>旅遊類型分布</h2>
+                        <span class="chart-subtitle">使用者偏好分析</span>
+                    </div>
+                    <canvas id="categoriesChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 詳細數據表格 -->
+            <section class="data-tables">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>🗺️ 景點詳細數據</h2>
+                        <input type="text" id="searchAttractions" placeholder="搜尋景點..." class="search-input">
+                    </div>
+                    <table class="data-table" id="attractionsTable">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>景點名稱</th>
+                                <th>地區</th>
+                                <th>使用次數</th>
+                                <th>成長率</th>
+                                <th>平均評分</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attractionsTableBody">
+                            <!-- 動態生成 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>📈 類型趨勢分析</h2>
+                    </div>
+                    <table class="data-table" id="categoriesTable">
+                        <thead>
+                            <tr>
+                                <th>類型</th>
+                                <th>使用次數</th>
+                                <th>佔比</th>
+                                <th>趨勢</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                            <!-- 動態生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 時間趨勢圖 -->
+            <section class="charts-section">
+                <div class="chart-container full-width">
+                    <div class="chart-header">
+                        <h2>使用趨勢分析</h2>
+                        <span class="chart-subtitle">過去30天的使用情況</span>
+                    </div>
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
