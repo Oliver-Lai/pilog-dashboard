@@ -7,21 +7,21 @@ const mockData = {
         avgRating: 4.6
     },
     attractions: [
-        { rank: 1, name: '台北101', region: '台北市', visits: 8542, growth: 15.3, rating: 4.8 },
-        { rank: 2, name: '日月潭', region: '南投縣', visits: 7234, growth: 12.7, rating: 4.7 },
-        { rank: 3, name: '阿里山', region: '嘉義縣', visits: 6891, growth: 8.5, rating: 4.9 },
-        { rank: 4, name: '墾丁國家公園', region: '屏東縣', visits: 6453, growth: -3.2, rating: 4.6 },
-        { rank: 5, name: '太魯閣國家公園', region: '花蓮縣', visits: 5876, growth: 18.9, rating: 4.8 },
-        { rank: 6, name: '九份老街', region: '新北市', visits: 5432, growth: 6.4, rating: 4.5 },
-        { rank: 7, name: '西門町', region: '台北市', visits: 5123, growth: 4.2, rating: 4.4 },
-        { rank: 8, name: '淡水老街', region: '新北市', visits: 4876, growth: 7.8, rating: 4.5 },
-        { rank: 9, name: '高美濕地', region: '台中市', visits: 4654, growth: 22.1, rating: 4.7 },
-        { rank: 10, name: '清境農場', region: '南投縣', visits: 4321, growth: 9.3, rating: 4.6 },
-        { rank: 11, name: '士林夜市', region: '台北市', visits: 4198, growth: 1.5, rating: 4.3 },
-        { rank: 12, name: '野柳地質公園', region: '新北市', visits: 3987, growth: 5.6, rating: 4.6 },
-        { rank: 13, name: '七星潭', region: '花蓮縣', visits: 3765, growth: 13.2, rating: 4.7 },
-        { rank: 14, name: '六合夜市', region: '高雄市', visits: 3543, growth: -1.8, rating: 4.2 },
-        { rank: 15, name: '赤崁樓', region: '台南市', visits: 3421, growth: 8.9, rating: 4.5 }
+        { rank: 1, name: '台北101', region: '台北市', visits: 8542, growth: 15.3, rating: 4.8, category: '購物商圈' },
+        { rank: 2, name: '日月潭', region: '南投縣', visits: 7234, growth: 12.7, rating: 4.7, category: '自然風景' },
+        { rank: 3, name: '阿里山', region: '嘉義縣', visits: 6891, growth: 8.5, rating: 4.9, category: '自然風景' },
+        { rank: 4, name: '墾丁國家公園', region: '屏東縣', visits: 6453, growth: -3.2, rating: 4.6, category: '自然風景' },
+        { rank: 5, name: '太魯閣國家公園', region: '花蓮縣', visits: 5876, growth: 18.9, rating: 4.8, category: '自然風景' },
+        { rank: 6, name: '九份老街', region: '新北市', visits: 5432, growth: 6.4, rating: 4.5, category: '文化古蹟' },
+        { rank: 7, name: '西門町', region: '台北市', visits: 5123, growth: 4.2, rating: 4.4, category: '購物商圈' },
+        { rank: 8, name: '淡水老街', region: '新北市', visits: 4876, growth: 7.8, rating: 4.5, category: '文化古蹟' },
+        { rank: 9, name: '高美濕地', region: '台中市', visits: 4654, growth: 22.1, rating: 4.7, category: '自然風景' },
+        { rank: 10, name: '清境農場', region: '南投縣', visits: 4321, growth: 9.3, rating: 4.6, category: '自然風景' },
+        { rank: 11, name: '士林夜市', region: '台北市', visits: 4198, growth: 1.5, rating: 4.3, category: '夜市美食' },
+        { rank: 12, name: '野柳地質公園', region: '新北市', visits: 3987, growth: 5.6, rating: 4.6, category: '自然風景' },
+        { rank: 13, name: '七星潭', region: '花蓮縣', visits: 3765, growth: 13.2, rating: 4.7, category: '自然風景' },
+        { rank: 14, name: '六合夜市', region: '高雄市', visits: 3543, growth: -1.8, rating: 4.2, category: '夜市美食' },
+        { rank: 15, name: '赤崁樓', region: '台南市', visits: 3421, growth: 8.9, rating: 4.5, category: '文化古蹟' }
     ],
     categories: [
         { type: '自然風景', count: 18234, percentage: 35.2, trend: 'up' },
@@ -94,6 +94,15 @@ function animateNumber(elementId, target, decimals = 0) {
     }, 16);
 }
 
+// 景點類型顏色映射
+const categoryColors = {
+    '自然風景': 'rgba(16, 185, 129, 0.8)',      // 綠色
+    '文化古蹟': 'rgba(245, 158, 11, 0.8)',     // 橙色
+    '夜市美食': 'rgba(239, 68, 68, 0.8)',       // 紅色
+    '主題樂園': 'rgba(168, 85, 247, 0.8)',     // 紫色
+    '購物商圈': 'rgba(59, 130, 246, 0.8)'      // 藍色
+};
+
 // 初始化圖表
 function initializeCharts() {
     // 熱門景點長條圖
@@ -107,8 +116,8 @@ function initializeCharts() {
             datasets: [{
                 label: '使用次數',
                 data: top10Attractions.map(a => a.visits),
-                backgroundColor: 'rgba(79, 70, 229, 0.8)',
-                borderColor: 'rgba(79, 70, 229, 1)',
+                backgroundColor: top10Attractions.map(a => categoryColors[a.category] || 'rgba(79, 70, 229, 0.8)'),
+                borderColor: top10Attractions.map(a => categoryColors[a.category]?.replace('0.8', '1') || 'rgba(79, 70, 229, 1)'),
                 borderWidth: 1,
                 borderRadius: 8
             }]
@@ -118,7 +127,30 @@ function initializeCharts() {
             maintainAspectRatio: true,
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function() {
+                            return Object.keys(categoryColors).map(category => ({
+                                text: category,
+                                fillStyle: categoryColors[category],
+                                strokeStyle: categoryColors[category].replace('0.8', '1'),
+                                lineWidth: 1
+                            }));
+                        },
+                        padding: 15,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        afterLabel: function(context) {
+                            const attraction = top10Attractions[context.dataIndex];
+                            return '類型: ' + attraction.category;
+                        }
+                    }
                 }
             },
             scales: {
@@ -144,31 +176,72 @@ function initializeCharts() {
             datasets: [{
                 data: mockData.categories.map(c => c.count),
                 backgroundColor: [
-                    'rgba(79, 70, 229, 0.8)',
-                    'rgba(6, 182, 212, 0.8)',
-                    'rgba(16, 185, 129, 0.8)',
-                    'rgba(245, 158, 11, 0.8)',
-                    'rgba(239, 68, 68, 0.8)'
+                    'rgba(16, 185, 129, 0.85)',    // 自然風景 - 綠色
+                    'rgba(245, 158, 11, 0.85)',     // 文化古蹟 - 橙色
+                    'rgba(239, 68, 68, 0.85)',       // 夜市美食 - 紅色
+                    'rgba(168, 85, 247, 0.85)',     // 主題樂園 - 紫色
+                    'rgba(59, 130, 246, 0.85)'      // 購物商圈 - 藍色
                 ],
-                borderWidth: 2,
+                borderWidth: 3,
                 borderColor: '#fff'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
+            cutout: '0%',
             plugins: {
                 legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 15,
-                        font: {
-                            size: 12
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const percentage = mockData.categories[context.dataIndex].percentage;
+                            return label + ': ' + value.toLocaleString() + ' (' + percentage + '%)';
                         }
                     }
                 }
             }
-        }
+        },
+        plugins: [{
+            id: 'textInSlices',
+            afterDatasetDraw: function(chart) {
+                const ctx = chart.ctx;
+                const chartArea = chart.chartArea;
+                const meta = chart.getDatasetMeta(0);
+                
+                ctx.save();
+                ctx.font = 'bold 14px sans-serif';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                ctx.shadowBlur = 4;
+                
+                meta.data.forEach((arc, index) => {
+                    const category = mockData.categories[index];
+                    const angle = (arc.startAngle + arc.endAngle) / 2;
+                    
+                    // 計算文字位置（在扇形的中心）
+                    const radius = (arc.innerRadius + arc.outerRadius) / 2;
+                    const x = arc.x + Math.cos(angle) * radius;
+                    const y = arc.y + Math.sin(angle) * radius;
+                    
+                    // 繪製類別名稱
+                    ctx.font = 'bold 15px sans-serif';
+                    ctx.fillText(category.type, x, y - 8);
+                    
+                    // 繪製百分比
+                    ctx.font = 'bold 13px sans-serif';
+                    ctx.fillText(category.percentage + '%', x, y + 10);
+                });
+                
+                ctx.restore();
+            }
+        }]
     });
 
     // 趨勢折線圖
