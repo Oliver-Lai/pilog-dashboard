@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>拍旅誌 - 後台數據分析</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -88,10 +89,10 @@
             <section class="charts-section">
                 <div class="chart-container">
                     <div class="chart-header">
-                        <h2>熱門景點排行</h2>
-                        <span class="chart-subtitle">基於使用者生成文案次數</span>
+                        <h2>台灣熱門景點地圖</h2>
+                        <span class="chart-subtitle">即時熱門程度標示</span>
                     </div>
-                    <canvas id="attractionsChart"></canvas>
+                    <div id="taiwanMap"></div>
                 </div>
 
                 <div class="chart-container">
@@ -119,6 +120,7 @@
                                 <th>景點名稱</th>
                                 <th>地區</th>
                                 <th>使用次數</th>
+                                <th>文案生成</th>
                                 <th>成長率</th>
                                 <th>平均評分</th>
                             </tr>
@@ -162,6 +164,7 @@
         </main>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
 </body>
